@@ -44,3 +44,11 @@ func (r *Repository) Delete(id int64) bool {
 	delete(r.tasks, id)
 	return true
 }
+
+func (r *Repository) Update(updatedTask Task) bool {
+	if _, exists := r.tasks[updatedTask.ID]; !exists {
+		return false
+	}
+	r.tasks[updatedTask.ID] = updatedTask
+	return true
+}
