@@ -1,6 +1,19 @@
 package task
 
-import "errors"
+import (
+	"fmt"
+)
+
+// var ErrTitleRequired = errors.New("title is required")
+
+type ValidationError struct {
+	Field   string
+	Message string
+}
+
+func (err ValidationError) Error() string {
+	return fmt.Sprintf("%s: %s", err.Field, err.Message)
+}
 
 type Service struct {
 	repo *Repository
@@ -14,7 +27,11 @@ func NewService(repo *Repository) *Service {
 
 func (s *Service) CreateTask(title, description string) (Task, error) {
 	if title == "" {
-		return Task{}, errors.New("title can't be empty")
+		return Task{},
+			fmt.Errorf(
+				"can`t create task: %w",
+				ValidationError{Field: "title", Message: "can`t be empty"},
+			)
 	}
 
 	return s.repo.Create(

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/R1Sen007/task-manager/internal/task"
@@ -21,8 +22,18 @@ func main() {
 		{Title: "Learn interfaces", Description: "Go deeper"},
 	}
 
-	for _, task_input := range inputs {
-		tsk, err := service.CreateTask(task_input.Title, task_input.Description)
+	for _, taskInput := range inputs {
+		tsk, err := service.CreateTask(taskInput.Title, taskInput.Description)
+
+		var validationErr task.ValidationError
+		if errors.As(err, &validationErr) {
+			fmt.Printf(
+				"validation error in field %q: %s\n",
+				validationErr.Field,
+				validationErr.Message,
+			)
+			continue
+		}
 		if err != nil {
 			fmt.Println(err)
 			continue
