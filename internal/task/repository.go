@@ -12,6 +12,8 @@ func NewRepository() *Repository {
 	}
 }
 
+var _ TaskRepository = (*Repository)(nil)
+
 func (r *Repository) Create(task Task) Task {
 	task.ID = r.nextID
 	r.nextID++
