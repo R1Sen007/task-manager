@@ -43,8 +43,8 @@ func (s *Service) CreateTask(title, description string) (Task, error) {
 	if title == "" {
 		return Task{},
 			fmt.Errorf(
-				"can`t create task: %w",
-				ValidationError{Field: "title", Message: "can`t be empty"},
+				"can't create task: %w",
+				ValidationError{Field: "title", Message: "can't be empty"},
 			)
 	}
 
